@@ -3,7 +3,7 @@ let n1 = "", n2 = "", operator;
 function operate(n1, n2) {
     let result;
 
-    switch (operator) {
+    switch (operator) { // here we check which operator was selected and perform the corresponding operation, without the need of functions
         case "+":
             result = Number(n1) + Number(n2);
             break;
@@ -27,13 +27,13 @@ function operate(n1, n2) {
 }
 
 function updateDisplay(value) {
-    if (value === undefined || value === null) return;
+    if (value === undefined || value === null) return; // if the value is undefined or null, we don't want to update the display
 
     const display = document.getElementById("display");
     display.textContent = "Result: " + value;
 }
 
-// event delegation here
+// event delegation here, we listen for clicks on the calculator container and determine which button was clicked based on the data-value attribute. This way, we don't have to add event listeners to each button individually.
 const calculator = document.getElementById("calculator").addEventListener("click", (event) => {
     const target = event.target;
     const value = target.dataset.value;
@@ -49,16 +49,18 @@ const calculator = document.getElementById("calculator").addEventListener("click
     // if theres no operator, store the first number, else store the second number and perform the operation when the equal btn is clicked
 });
 
-const equalBtn = document.getElementById("equal-btn").addEventListener("click", () => {
+// event listener for the equal button, when clicked, we check if both numbers and the operator are defined, and if so, we call the operate function to perform the calculation.
+const equalBtn = document.getElementById("equals-btn").addEventListener("click", () => {
     if (n1 && n2 && operator) {
         operate(n1, n2);
     }
 });
 
+// event listener for the clear button, when clicked, we reset the numbers and operator to their initial state and update the display to be empty.
 const clearBtn = document.getElementById("clear-btn").addEventListener("click", () => {
     n1 = "";
     n2 = "";
     operator = undefined;
-    
+
     updateDisplay("");
 });
