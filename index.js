@@ -32,3 +32,33 @@ function updateDisplay(value) {
     const display = document.getElementById("display");
     display.textContent = "Result: " + value;
 }
+
+// event delegation here
+const calculator = document.getElementById("calculator").addEventListener("click", (event) => {
+    const target = event.target;
+    const value = target.dataset.value;
+
+    if (value === "+" || value === "-" || value === "*" || value === "/") {
+        operator = value;
+    } else if (!operator) {
+        n1 = value;
+    } else {
+        n2 = value;
+    }
+
+    // if theres no operator, store the first number, else store the second number and perform the operation when the equal btn is clicked
+});
+
+const equalBtn = document.getElementById("equal-btn").addEventListener("click", () => {
+    if (n1 && n2 && operator) {
+        operate(n1, n2);
+    }
+});
+
+const clearBtn = document.getElementById("clear-btn").addEventListener("click", () => {
+    n1 = "";
+    n2 = "";
+    operator = undefined;
+    
+    updateDisplay("");
+});
