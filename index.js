@@ -5,21 +5,21 @@ function operate(n1, n2) {
 
     switch (operator) { // here we check which operator was selected and perform the corresponding operation, without the need of functions
         case "+":
-            result = Number(n1) + Number(n2);
+            result = parseFloat(n1) + parseFloat(n2);
             break;
         case "-":
-            result = Number(n1) - Number(n2);
+            result = parseFloat(n1) - parseFloat(n2);
             break;
         case "*":
-            result = Number(n1) * Number(n2);
+            result = parseFloat(n1) * parseFloat(n2);
             break;
         case "/":
-            if (Number(n2) === 0) { 
+            if (parseFloat(n2) === 0) { 
             alert("You cannot divide by zero!");
             return;
         }
 
-            result = Number(n1) / Number(n2);
+            result = parseFloat(n1) / parseFloat(n2);
             break;
     }
 
@@ -41,9 +41,9 @@ const calculator = document.getElementById("calculator").addEventListener("click
     if (value === "+" || value === "-" || value === "*" || value === "/") {
         operator = value;
     } else if (!operator) {
-        n1 = value;
+        n1 += value;
     } else {
-        n2 = value;
+        n2 += value;
     }
 
     // if theres no operator, store the first number, else store the second number and perform the operation when the equal btn is clicked
