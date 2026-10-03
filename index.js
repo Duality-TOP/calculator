@@ -5,21 +5,21 @@ function operate(n1, n2) {
 
     switch (operator) { // here we check which operator was selected and perform the corresponding operation, without the need of functions
         case "+":
-            result = parseFloat(n1) + parseFloat(n2);
+            result = Number(n1) + Number(n2);
             break;
         case "-":
-            result = parseFloat(n1) - parseFloat(n2);
+            result = Number(n1) - Number(n2);
             break;
         case "*":
-            result = parseFloat(n1) * parseFloat(n2);
+            result = Number(n1) * Number(n2);
             break;
         case "/":
-            if (parseFloat(n2) === 0) { 
+            if (Number(n2) === 0) { 
             alert("You cannot divide by zero!");
             return;
         }
 
-            result = parseFloat(n1) / parseFloat(n2);
+            result = Number(n1) / Number(n2);
             break;
     }
 
