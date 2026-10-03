@@ -46,6 +46,8 @@ const calculator = document.getElementById("calculator").addEventListener("click
         n2 += value;
     }
 
+    updateDisplay(n1 + " " + operator + " " + n2);  
+
     // if theres no operator, store the first number, else store the second number and perform the operation when the equal btn is clicked
 });
 
