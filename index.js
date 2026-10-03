@@ -1,6 +1,11 @@
 let n1 = "", n2 = "", operator;
 
 function operate(n1, n2) {
+    if (Number.isNaN(Number(n1)) || Number.isNaN(Number(n2))) {
+        window.alert("Please clear the calculator and enter valid numbers.");
+        return;
+    }
+    
     let result;
 
     switch (operator) { // here we check which operator was selected and perform the corresponding operation, without the need of functions
@@ -15,7 +20,7 @@ function operate(n1, n2) {
             break;
         case "/":
             if (Number(n2) === 0) { 
-            alert("You cannot divide by zero!");
+            window.alert("You cannot divide by zero!");
             return;
         }
 
