@@ -243,38 +243,15 @@ The clear button resets the calculator's state:
 
 ```js
 document.querySelector('#clear-btn').addEventListener('click', () => {
-    n1 = '', n2 = '', operator = undefined;
-
+    resetVariables();
     updateDisplay('');
 });
 ```
 
-The variables are reassigned to their initial values:
-
-```js
-n1 = '';
-n2 = '';
-operator = undefined;
-```
+The variables are reassigned to their initial values using the function 'resetVariables()';
 
 The display is then cleared by calling:
 
 ```js
 updateDisplay('');
 ```
-
-The comma operator can also be used to make multiple assignments in one statement:
-
-```js
-n1 = '', n2 = '', operator = undefined;
-```
-
-However, writing the assignments separately can sometimes be easier to read:
-
-```js
-n1 = '';
-n2 = '';
-operator = undefined;
-```
-
-Both approaches work.
