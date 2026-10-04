@@ -33,8 +33,7 @@ function updateDisplay(param) {
 }
 
 document.querySelector('#calculator').addEventListener('click', (event) => {
-    const target = event.target;
-    const value = target.dataset.value;
+    const value = event.target.dataset.value;
     const operators = '+-*/';
 
     if (!value) return;
