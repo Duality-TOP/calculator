@@ -1,28 +1,23 @@
-let n1 = "", n2 = "", operator;
+let n1 = '', n2 = '', operator;
 
-function operate(n1, n2) {
-    if (Number.isNaN(Number(n1)) || Number.isNaN(Number(n2))) {
-        window.alert("Please clear the calculator and enter valid numbers.");
-        return;
-    }
-    
+function operate(op) {
     let result;
 
-    switch (operator) { // here we check which operator was selected and perform the corresponding operation, without the need of functions
-        case "+":
+    switch (op) {
+        case '+':
             result = Number(n1) + Number(n2);
             break;
-        case "-":
+        case '-':
             result = Number(n1) - Number(n2);
             break;
-        case "*":
+        case '*':
             result = Number(n1) * Number(n2);
             break;
-        case "/":
-            if (Number(n2) === 0) { 
-            window.alert("You cannot divide by zero!");
-            return;
-        }
+        case '/':
+            if (Number(n2) === 0) {
+                window.alert('You cannot divide by zero. Clear your display and try again.');
+                return;
+            }
 
             result = Number(n1) / Number(n2);
             break;
@@ -31,43 +26,38 @@ function operate(n1, n2) {
     if (result !== undefined) updateDisplay(result);
 }
 
-function updateDisplay(value) {
-    if (value === undefined || value === null) return; // if the value is undefined or null, we don't want to update the display
+function updateDisplay(param) {
+    const display = document.querySelector('#display');
 
-    const display = document.getElementById("display");
-    display.textContent = "Result: " + value;
+    display.textContent = `Result: ${param}`;
 }
 
-// event delegation here, we listen for clicks on the calculator container and determine which button was clicked based on the data-value attribute. This way, we don't have to add event listeners to each button individually.
-const calculator = document.getElementById("calculator").addEventListener("click", (event) => {
+const calculator = document.querySelector('#calculator').addEventListener('click', (event) => {
     const target = event.target;
     const value = target.dataset.value;
+    const operators = '+-*/';
 
-    if (value === "+" || value === "-" || value === "*" || value === "/") {
+    if (!value) return;
+
+    if (operators.includes(value)) {
         operator = value;
     } else if (!operator) {
         n1 += value;
-    } else {
+    } else if (operator !== undefined) {
         n2 += value;
     }
 
-    updateDisplay(n1 + " " + operator + " " + n2);  
-
-    // if theres no operator, store the first number, else store the second number and perform the operation when the equal btn is clicked
+    updateDisplay(`Result: ${n1} ${operator} ${n2}`);
 });
 
-// event listener for the equal button, when clicked, we check if both numbers and the operator are defined, and if so, we call the operate function to perform the calculation.
-const equalBtn = document.getElementById("equals-btn").addEventListener("click", () => {
-    if (n1 && n2 && operator) {
-        operate(n1, n2);
-    }
+const equalsBtn = document.querySelector('#equals-btn').addEventListener('click', () => {
+    if (n1 === '' || n2 === '' || operator === undefined) return;
+
+    operate(operator);
 });
 
-// event listener for the clear button, when clicked, we reset the numbers and operator to their initial state and update the display to be empty.
-const clearBtn = document.getElementById("clear-btn").addEventListener("click", () => {
-    n1 = "";
-    n2 = "";
-    operator = undefined;
+const clearBtn = document.querySelector('#clear-btn').addEventListener('click', () => {
+    n1 = '', n2 = '', operator = undefined;
 
-    updateDisplay("");
+    updateDisplay('');
 });
