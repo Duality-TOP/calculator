@@ -7,7 +7,8 @@
 </head>
 <body>
     <div id="calculator">
-        <h2 id="display">Result:</h2>
+        <h1 id="display">Result:</h1>
+        <!-- numbers -->
         <button data-value="0">0</button>
         <button data-value="1">1</button>
         <button data-value="2">2</button>
@@ -18,14 +19,14 @@
         <button data-value="7">7</button>
         <button data-value="8">8</button>
         <button data-value="9">9</button>
-
+        <!-- operators -->
         <button data-value="+">+</button>
         <button data-value="-">-</button>
         <button data-value="*">*</button>
         <button data-value="/">/</button>
     </div>
-    <!-- both buttons here are separated for an event delegation that might conflict if done in the div -->
 
+    <!-- the buttons are outside of the div because it might conflict in the script -->
     <button id="equals-btn">=</button>
     <button id="clear-btn">C</button>
 
