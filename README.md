@@ -1,88 +1,287 @@
 # Calculator Project README
 
-## Here's how I initially finished the calculator:
+## How I initially built the calculator
 
-I used GitHub Copilot for some guidance, such as fixing bugs (that's okay, as long as you learn something from it) or implementing logic.
+I used GitHub Copilot for some guidance, such as fixing bugs and helping me implement some logic. That's okay as long as I understand what the code does and learn from it.
 
-There are three main things I have used to create the calculator project:
+There are three main concepts I used to create the calculator:
 
-```
-1 - If there's no operator, we store the first number. Else, second number;
-2 - We must not use the assignment operator on the event delegation that handles numbers, operators etc... Since it would conflict and for example, if you were trying to do 12 + 7, it would return 9, why? Because of this little guy here: ' = '. In other words, using it would reassign values we don't want to;
-3 - We should handle cases of undefined or '' (empty string) in the if statements. Since the variables are intialized this way.
+```text
+1 - If there is no operator, we store the first number. Once an operator is selected, we store the second number.
 
-Additional: We will use 'data-value' in the HTML (to separate HTML from JS and also control it better).
-```
+2 - When entering multiple digits, we must append the new digit to the existing value instead of replacing it. For example, using `n1 = value` would make `12` become `2`, while `n1 += value` allows us to build `12` one digit at a time.
 
-
-### Functions (normal type)
-
-Now moving onto functions. The first function created is 'operate()', which takes one parameter (operator);
-
-```
-JavaScript brief explanation of operate():
-
-function operate() is used to calculate the first and second number, there are some safeguards such as: 
-
-if (result !== undefined) updateDisplay(result)
-
-or by checking if the second number is 0 (which does a window alert).
+3 - We need to handle cases such as `undefined` and `''` (empty strings) in our conditions because the variables are initialized with these values.
 ```
 
-The second function is 'updateDisplay()', self-explanatory. Here's what it does:
+### `data-value`
 
+The buttons use the `data-value` attribute in HTML:
+
+```html
+<button data-value="7">7</button>
+<button data-value="+">+</button>
 ```
-function updateDisplay(param) {
-    const display = document.querySelector('#display'); // selects the h1 in HTML
 
-    display.textContent = `Result: ${param}`; // updates the h1
+This allows JavaScript to read the value of the button through:
+
+```js
+const value = event.target.dataset.value;
+```
+
+This keeps the value used by JavaScript separate from the visible text of the HTML button.
+
+---
+
+## Functions
+
+### `operate()`
+
+The first function is `operate()`, which takes one parameter: the operator.
+
+```js
+function operate(op) {
+    let result;
+
+    switch (op) {
+        case '+':
+            result = Number(n1) + Number(n2);
+            break;
+        case '-':
+            result = Number(n1) - Number(n2);
+            break;
+        case '*':
+            result = Number(n1) * Number(n2);
+            break;
+        case '/':
+            if (Number(n2) === 0) {
+                window.alert('You cannot divide by zero. Clear your display and try again.');
+                return;
+            }
+
+            result = Number(n1) / Number(n2);
+            break;
+    }
+
+    if (result !== undefined) updateDisplay(result);
 }
 ```
 
-### Arrow functions and event delegations
+`operate()` checks which operator was selected and performs the corresponding calculation using `switch`.
 
-Moving onto (arrow) functions and event delegations, let's start with the calculator event delegation.
+`n1` and `n2` are strings while the user is entering the numbers, so `Number()` converts them to numbers before performing the calculation.
 
+There is also a safeguard against division by zero:
+
+```js
+if (Number(n2) === 0) {
+    window.alert('You cannot divide by zero. Clear your display and try again.');
+    return;
+}
 ```
-JavaScript SnapShot (event delegation):
 
-const target = event.target;
+The function also checks whether `result` is `undefined` before updating the display:
+
+```js
+if (result !== undefined) updateDisplay(result);
+```
+
+---
+
+### `updateDisplay()`
+
+The second function is `updateDisplay()`. Its purpose is to update the calculator display.
+
+```js
+function updateDisplay(param) {
+    const display = document.querySelector('#display');
+
+    display.textContent = `Result: ${param}`;
+}
+```
+
+It selects the `<h1>` element from the HTML and changes its `textContent`.
+
+---
+
+## Arrow functions and event delegation
+
+The calculator uses event delegation for the number and operator buttons.
+
+Instead of adding an event listener to every button individually, we add one listener to the `#calculator` element:
+
+```js
+document.querySelector('#calculator').addEventListener('click', (event) => {
+    const target = event.target;
     const value = target.dataset.value;
-    const operators = '+-*/'; // self-explanatory
+    const operators = '+-*/';
 
-    if (!value) return; // if there's no value, return and end the program
+    if (!value) return;
 
-    if (operators.includes(value)) { // here we use includes() to determine if its an operator or not, reducing the if-statements that were in its early stage
+    if (operators.includes(value)) {
         operator = value;
-    } else if (!operator) { // if theres no operator, store in n1, else, n2
+    } else if (!operator) {
         n1 += value;
-    } else if (operator !== undefined) {
+    } else {
         n2 += value;
     }
 
-    // as said earlier, the += does fix the reassignment problem since now it doesnt overwrite the last input
-
-    updateDisplay(`Result: ${n1} ${operator} ${n2}`); // here we update the display after each click, but theres no handling for undefined values
-```
-
-Now, let's explain the arrow functions (barely, though):
-
-```
-JavaScript SnapShot (arrow functions)
-
-Here we have the equalBtn function:
-
-const equalsBtn = document.querySelector('#equals-btn').addEventListener('click', () => {
-    if (n1 === '' || n2 === '' || operator === undefined) return; // self-explanatory, already explained earlier the return, but the || in english is OR
-
-    operate(operator); // if everything is correct, it calls the operate() function
-});
-
-Now, we have the clearBtn function, which clears the display and resets the numbers/operator:
-
-const clearBtn = document.querySelector('#clear-btn').addEventListener('click', () => {
-    n1 = '', n2 = '', operator = undefined; // here we reassign all values in one line using the comma (which is very useful and saves lines :D)
-
-    updateDisplay(''); // updates the display to an empty string (by default, the function has the string 'Result:' before the parameter given.)
+    updateDisplay(`${n1} ${operator} ${n2}`);
 });
 ```
+
+### How it works
+
+First, we get the element that was clicked:
+
+```js
+const target = event.target;
+```
+
+Then we get its `data-value`:
+
+```js
+const value = target.dataset.value;
+```
+
+For example, clicking this button:
+
+```html
+<button data-value="7">7</button>
+```
+
+gives us:
+
+```js
+value === '7';
+```
+
+We then use `includes()` to check whether the value is an operator:
+
+```js
+if (operators.includes(value)) {
+    operator = value;
+}
+```
+
+If it is not an operator and there is no operator yet, the value is added to `n1`:
+
+```js
+else if (!operator) {
+    n1 += value;
+}
+```
+
+If an operator already exists, the value is added to `n2`:
+
+```js
+else {
+    n2 += value;
+}
+```
+
+The `+=` operator is important here.
+
+For example:
+
+```js
+n1 = '1';
+n1 += '2';
+```
+
+results in:
+
+```js
+n1 === '12';
+```
+
+This is effectively the same as:
+
+```js
+n1 = n1 + '2';
+```
+
+Using `n1 = value` instead would replace the previous value:
+
+```js
+n1 = '1';
+n1 = '2';
+```
+
+which would result in:
+
+```js
+n1 === '2';
+```
+
+---
+
+## The equals button
+
+The equals button has its own event listener:
+
+```js
+document.querySelector('#equals-btn').addEventListener('click', () => {
+    if (n1 === '' || n2 === '' || operator === undefined) return;
+
+    operate(operator);
+});
+```
+
+Before performing the calculation, we check whether the required values exist.
+
+If `n1` is empty, `n2` is empty, or there is no operator, the function returns and stops:
+
+```js
+if (n1 === '' || n2 === '' || operator === undefined) return;
+```
+
+If everything is valid, we call:
+
+```js
+operate(operator);
+```
+
+---
+
+## The clear button
+
+The clear button resets the calculator's state:
+
+```js
+document.querySelector('#clear-btn').addEventListener('click', () => {
+    n1 = '', n2 = '', operator = undefined;
+
+    updateDisplay('');
+});
+```
+
+The variables are reassigned to their initial values:
+
+```js
+n1 = '';
+n2 = '';
+operator = undefined;
+```
+
+The display is then cleared by calling:
+
+```js
+updateDisplay('');
+```
+
+The comma operator can also be used to make multiple assignments in one statement:
+
+```js
+n1 = '', n2 = '', operator = undefined;
+```
+
+However, writing the assignments separately can sometimes be easier to read:
+
+```js
+n1 = '';
+n2 = '';
+operator = undefined;
+```
+
+Both approaches work.
