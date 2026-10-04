@@ -6,7 +6,7 @@ I used GitHub Copilot for some guidance, such as fixing bugs and helping me impl
 
 There are three main concepts I used to create the calculator:
 
-```text
+```
 1 - If there is no operator, we store the first number. Once an operator is selected, we store the second number.
 
 2 - When entering multiple digits, we must append the new digit to the existing value instead of replacing it. For example, using `n1 = value` would make `12` become `2`, while `n1 += value` allows us to build `12` one digit at a time.
@@ -112,8 +112,7 @@ Instead of adding an event listener to every button individually, we add one lis
 
 ```js
 document.querySelector('#calculator').addEventListener('click', (event) => {
-    const target = event.target;
-    const value = target.dataset.value;
+    const value = event.target.dataset.value;
     const operators = '+-*/';
 
     if (!value) return;
@@ -135,13 +134,7 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
 First, we get the element that was clicked:
 
 ```js
-const target = event.target;
-```
-
-Then we get its `data-value`:
-
-```js
-const value = target.dataset.value;
+const value = event.target.dataset.value;
 ```
 
 For example, clicking this button:
