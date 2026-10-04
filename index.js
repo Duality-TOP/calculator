@@ -1,4 +1,8 @@
-let n1 = '', n2 = '', operator;
+let n1 = '', n2 = '', operator = undefined;
+
+function resetVariables() {
+    n1 = '', n2 = '', operator = undefined;
+}
 
 function operate(op) {
     let result;
@@ -24,6 +28,7 @@ function operate(op) {
     }
 
     if (result !== undefined) updateDisplay(result);
+    resetVariables();
 }
 
 function updateDisplay(param) {
@@ -56,7 +61,6 @@ document.querySelector('#equals-btn').addEventListener('click', () => {
 });
 
 document.querySelector('#clear-btn').addEventListener('click', () => {
-    n1 = '', n2 = '', operator = undefined;
-
+    resetVariables();
     updateDisplay('');
 });
