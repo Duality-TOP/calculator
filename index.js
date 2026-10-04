@@ -43,7 +43,7 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
         operator = value;
     } else if (!operator) {
         n1 += value;
-    } else if (operator !== undefined) {
+    } else {
         n2 += value;
     }
 
