@@ -32,7 +32,7 @@ function updateDisplay(param) {
     display.textContent = `Result: ${param}`;
 }
 
-const calculator = document.querySelector('#calculator').addEventListener('click', (event) => {
+document.querySelector('#calculator').addEventListener('click', (event) => {
     const target = event.target;
     const value = target.dataset.value;
     const operators = '+-*/';
@@ -47,16 +47,16 @@ const calculator = document.querySelector('#calculator').addEventListener('click
         n2 += value;
     }
 
-    updateDisplay(`Result: ${n1} ${operator} ${n2}`);
+    updateDisplay(`${n1} ${operator} ${n2}`);
 });
 
-const equalsBtn = document.querySelector('#equals-btn').addEventListener('click', () => {
+document.querySelector('#equals-btn').addEventListener('click', () => {
     if (n1 === '' || n2 === '' || operator === undefined) return;
 
     operate(operator);
 });
 
-const clearBtn = document.querySelector('#clear-btn').addEventListener('click', () => {
+document.querySelector('#clear-btn').addEventListener('click', () => {
     n1 = '', n2 = '', operator = undefined;
 
     updateDisplay('');
