@@ -33,7 +33,7 @@ function operate(op, num1, num2) {
 
     resetVariables();
     if (result !== undefined) {
-        result = Number(result.toFixed(5));
+        result = Number(result.toFixed(2));
         updateDisplay(result);
     }
 
@@ -59,7 +59,7 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
     }
 
     operator = value;
-    
+
     } else if (!operator) {
         n1 += value;
     } else {
