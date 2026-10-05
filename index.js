@@ -1,12 +1,6 @@
 let n1 = '';
 let n2 = '';
-let operator = undefined;
-
-function resetVariables() {
-    n1 = '';
-    n2 = '';
-    operator = undefined;
-}
+let operator = '';
 
 function operate(op, num1, num2) {
     let result;
@@ -31,7 +25,6 @@ function operate(op, num1, num2) {
             break;
     }
 
-    resetVariables();
     if (result !== undefined) {
         result = Number(result.toFixed(2));
         updateDisplay(result);
@@ -39,8 +32,7 @@ function operate(op, num1, num2) {
 
     n1 = result; // n1 is the previous number (so u can do for example: 10 + 9 = 19 - 1 = 18)
     n2 = '';
-    operator = op;
-    
+    operator = op; // the operator stays the same until u change it
 }
 
 function updateDisplay(param) {
@@ -54,7 +46,7 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
     if (!value) return;
 
     if (operators.includes(value)) {
-    if (n1 !== '' && n2 !== '' && operator !== undefined) {
+    if (n1 !== '' && n2 !== '' && operator !== '') {
         operate(operator, Number(n1), Number(n2));
     }
 
@@ -69,13 +61,20 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
     updateDisplay(`${n1} ${operator} ${n2}`);
 });
 
+function resetVariables() {
+    n1 = '';
+    n2 = '';
+    operator = '';
+
+    updateDisplay('');
+}
+
 document.querySelector('#equals-btn').addEventListener('click', () => {
-    if (n1 === '' || n2 === '' || operator === undefined) return;
+    if (n1 === '' || n2 === '' || operator === '') return;
 
     operate(operator, Number(n1), Number(n2));
 });
 
 document.querySelector('#clear-btn').addEventListener('click', () => {
     resetVariables();
-    updateDisplay('');
 });
