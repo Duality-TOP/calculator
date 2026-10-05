@@ -27,7 +27,39 @@ let operator = '';
 
 `n1` stores the first number, `n2` stores the second number, and `operator` stores the selected mathematical operator.
 
-While the user is typing, the numbers are stored as strings. They are converted to numbers when a calculation is performed.
+Initially, all three variables are empty strings. This was not always the case: `operator` originally started as `undefined`.
+
+I changed it to an empty string because `n1` and `n2` were already initialized with `''`, and using `undefined` for only the operator could cause it to appear in the display.
+
+For example, the display is updated with:
+
+```js
+updateDisplay(`${n1} ${operator} ${n2}`);
+```
+
+If `operator` was `undefined`, the initial display could contain:
+
+```text
+undefined
+```
+
+while `n1` and `n2` would simply contribute empty strings.
+
+Using the same initial value for all three variables makes the initial state more consistent:
+
+```js
+let n1 = '';
+let n2 = '';
+let operator = '';
+```
+
+It also means that the code can consistently check for an empty value:
+
+```js
+if (n1 === '' || n2 === '' || operator === '') return;
+```
+
+While the user is typing, `n1` and `n2` are stored as strings. They are converted to numbers when a calculation is performed.
 
 The basic flow is:
 
@@ -284,7 +316,7 @@ If the user then enters `- 1 =`, the calculator can use `19` as the first number
 18
 ```
 
-When the user selects another operator, the operator is simply replaced with the new one.
+When the user selects another operator, the operator is replaced with the new one.
 
 ## `updateDisplay()`
 
