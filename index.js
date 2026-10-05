@@ -44,7 +44,7 @@ function operate(op, num1, num2) {
 }
 
 function updateDisplay(param) {
-    document.querySelector("#display").textContent = `Result: ${param}`;
+    document.querySelector('#display').textContent = `Result: ${param}`;
 }
 
 document.querySelector('#calculator').addEventListener('click', (event) => {
