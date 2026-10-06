@@ -28,6 +28,8 @@ function operate(op, num1, num2) {
     if (result !== undefined) {
         result = Number(result.toFixed(2));
         updateDisplay(result);
+    } else {
+        return;
     }
 
     n1 = result; // n1 is the previous number (so u can do for example: 10 + 9 = 19 - 1 = 18)
@@ -46,7 +48,7 @@ document.querySelector('#calculator').addEventListener('click', (event) => {
     if (!value) return;
 
     if (operators.includes(value)) {
-    if (n1 !== '' && n2 !== '' && operator !== '') {
+    if (operator && n1 && n2) {
         operate(operator, Number(n1), Number(n2));
     }
 
@@ -70,7 +72,7 @@ function resetVariables() {
 }
 
 document.querySelector('#equals-btn').addEventListener('click', () => {
-    if (n1 === '' || n2 === '' || operator === '') return;
+    if (!n1 || !n2 || !operator) return;
 
     operate(operator, Number(n1), Number(n2));
 });
